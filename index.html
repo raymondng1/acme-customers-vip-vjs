@@ -10,10 +10,10 @@
    <form>
        <h2>Customer Input Form</h2>
        <label>Name
-            <input name='name' />
+            <input name='name' value = '' id ='name' placeholder="insert name"/>
        </label>
        <label>Email
-            <input name='email' />
+            <input name='email' value ='' id ='email' placeholder="insert email" />
        </label>
        <label>isVIP
             <input name='isVIP' type='checkbox'/>
@@ -21,7 +21,9 @@
        <button>Create</button>
    </form>
    <div id='numVIPs'></div>
+
    <div id='customers'></div>
+
 </body>
 
 <script>
@@ -43,7 +45,27 @@ const importCustomers = () => {
     })
 }
 
+
 importCustomers();
+
+createCustomer = () => {
+    const vipPeople = document.getElementById('numVips');
+    const nameValue = document.getElementById('name').value;
+    const emailValue = document.getElementById('name').value;
+    
+    let newCustomer = document.createElement('div');
+    newCustomer.className = 'newCust';
+    newCustomer.innerHTML = `${nameValue} (${emailValue})`;
+    customers.appendChild(newCustomer);   
+}
+
+
+
+const form = document.querySelector('form');
+    form.addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    createCustomer ();
+    });
 
 </script>
 </html>
