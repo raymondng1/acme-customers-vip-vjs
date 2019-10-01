@@ -1,0 +1,32 @@
+form {
+    display: flex;
+    border: 1px black solid;
+    flex-direction: column;
+    padding: 1rem;
+    align-content: center;
+    align-items: center;
+}
+
+.vip {
+    background-color: dodgerblue;
+    color: white;
+}
+
+#customers {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+}
+
+.customer {
+    height: 6rem;
+    width: 90%;
+    text-align: center;
+    margin: 1rem;
+}
+
+div > button {
+    margin: 1rem;
+    width: 10rem;
+}

@@ -3,20 +3,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Acme Customers</title>
+    <link rel='stylesheet' href='styles.css'>
 </head>
 <body>
-   <h1>Acme Customers <span>VIP</span></h1> 
+   <h1>Acme Customers <span class='vip'>VIP</span></h1> 
    <form>
        <h2>Customer Input Form</h2>
        <label>Name
-            <input name='name' value = '' id ='name' placeholder="insert name"/>
+            <input name='name' />
        </label>
        <label>Email
-            <input name='email' value ='' id ='email' placeholder="insert email" />
+            <input name='email' />
        </label>
        <label>isVIP
-            <input name='isVIP' type='checkbox'/>
+            <input id='checkbox' name='isVIP' type='checkbox'/>
        </label>
        <button>Create</button>
    </form>
@@ -28,43 +29,100 @@
 
 <script>
 
-let customersToImport = [
+// initiate VIP count ()
+// create & call importCustomer function that:
+//      imports existing customers
+//      if isVIP value is true, increase VIP count
+//      adds "destroy" button to each div
+// create click event for create button
+// create addCustomer function that:
+//      takes user input and inserts it into customers array
+//      adds customer to customersDiv (incl. 'destroy' button)
+//      increases VIPs count
+//      clears form
+// create click event for Destroy button (deletes div, reduces VIP count if necessary)
+
+
+let customers = [
       { id: 1, name: 'moe', email: 'moe@gmail.com', isVIP: true},
       { id: 2, name: 'larry', isVIP: true, email: 'larry@gmail.com'},
       { id: 4, name: 'shep', email: 'shep@gmail.com'},
      ];
 
-const customers = document.getElementById('customers')
+let VIPCount = 0;
+let currentCustomerId = 0;
+
+const customersDiv = document.getElementById('customers')
+const create = document.querySelector('button');
+const form = document.querySelector('form')
+const VIPCheckbox = document.getElementById('checkbox');
+
 
 const importCustomers = () => {
-    customersToImport.forEach(customerObj => {
+    customers.forEach(customerObj => {
+        currentCustomerId = customerObj.id;
         let entry = document.createElement('div');
         entry.classList.add('customer');
         entry.innerHTML = `${customerObj.name} (${customerObj.email})`;
-        customers.appendChild(entry);
+        if (customerObj.isVIP) {
+            VIPCount++;
+            entry.classList.add('vip');
+        }
+        let destroyButton = document.createElement('button');
+        destroyButton.innerHTML = 'Destroy';
+        destroyButton.classList.add('destroy-button');
+        entry.appendChild(destroyButton);
+        customersDiv.appendChild(entry);
     })
 }
 
+form.addEventListener('submit', ev => {
+    const addCustomer = () => {
+        let newCustomerData = {};
+        currentCustomerId++;
+        newCustomerData.id = currentCustomerId;
+        newCustomerData.name = ev.target.elements[0].value;
+        newCustomerData.email = ev.target.elements[1].value;
+        if (checkbox.checked) {
+            newCustomerData.isVIP = true;
+            VIPCount++;
+        }
+        customers.push(newCustomerData);
+        let entry = document.createElement('div');
+        entry.classList.add('customer');
+        //set id
+        entry.setAttribute('id', `${newCustomerData.id}`)
+        if (checkbox.checked) {
+            entry.classList.add('vip'); 
+        }
+        entry.innerHTML = `${newCustomerData.name} (${newCustomerData.email})`;
+        let destroyButton = document.createElement('button');
+        destroyButton.innerHTML = 'Destroy';
+        destroyButton.classList.add('destroy-button');
+        destroyButton.style['border'] = ('red 1px solid');
+        entry.appendChild(destroyButton);
+        customersDiv.appendChild(entry);
+        //clears form
+        ev.target.elements[0].value = '';
+        ev.target.elements[1].value = '';
+    }
+    addCustomer();
+})
 
 importCustomers();
 
-createCustomer = () => {
-    const vipPeople = document.getElementById('numVips');
-    const nameValue = document.getElementById('name').value;
-    const emailValue = document.getElementById('name').value;
-    
-    let newCustomer = document.createElement('div');
-    newCustomer.className = 'newCust';
-    newCustomer.innerHTML = `${nameValue} (${emailValue})`;
-    customers.appendChild(newCustomer);   
-}
+const destroyer = document.querySelector('div button')
+
+destroyer.addEventListener('click', ev => {
+    // need to be able to select div to delete by its ID
+    // console.log(destroyer.parentNode);
+    destroyer.parentNode.parentNode.removeChild(destroyer.parentNode)
+    // const currentCustomer = document.getElementById()
+})
 
 
-
-const form = document.querySelector('form');
-    form.addEventListener('submit', (ev) => {
+form.addEventListener('submit', (ev) => {
     ev.preventDefault();
-    createCustomer ();
     });
 
 </script>
