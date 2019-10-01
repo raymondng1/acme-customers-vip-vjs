@@ -1,0 +1,49 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+   <h1>Acme Customers <span>VIP</span></h1> 
+   <form>
+       <h2>Customer Input Form</h2>
+       <label>Name
+            <input name='name' />
+       </label>
+       <label>Email
+            <input name='email' />
+       </label>
+       <label>isVIP
+            <input name='isVIP' type='checkbox'/>
+       </label>
+       <button>Create</button>
+   </form>
+   <div id='numVIPs'></div>
+   <div id='customers'></div>
+</body>
+
+<script>
+
+let customersToImport = [
+      { id: 1, name: 'moe', email: 'moe@gmail.com', isVIP: true},
+      { id: 2, name: 'larry', isVIP: true, email: 'larry@gmail.com'},
+      { id: 4, name: 'shep', email: 'shep@gmail.com'},
+     ];
+
+const customers = document.getElementById('customers')
+
+const importCustomers = () => {
+    customersToImport.forEach(customerObj => {
+        let entry = document.createElement('div');
+        entry.classList.add('customer');
+        entry.innerHTML = `${customerObj.name} (${customerObj.email})`;
+        customers.appendChild(entry);
+    })
+}
+
+importCustomers();
+
+</script>
+</html>
